@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "759043818885",
+    "project_id": "pick-pro-88756",
+    "storage_bucket": "pick-pro-88756.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:759043818885:android:98039176af88f0c48a30ec",
+        "android_client_info": {
+          "package_name": "com.example.gogreen"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "759043818885-nc76jlepbh4d2gp91ou6dt8rs9nfe3ch.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCQMQ_ZYDZPtgPOdbuUKLRAgfdJ1GO0MIg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "759043818885-nc76jlepbh4d2gp91ou6dt8rs9nfe3ch.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

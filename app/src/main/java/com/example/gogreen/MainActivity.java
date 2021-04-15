@@ -39,6 +39,7 @@ public class MainActivity extends AppCompatActivity {
     private Button submit;
     FirebaseDatabase database;
     DatabaseReference myUser;
+    DatabaseReference myShop;
     SharedPreferences sharedpreferences;
     String MyPREFERENCES = "MyNum" ;
     String channel;
@@ -54,16 +55,35 @@ public class MainActivity extends AppCompatActivity {
         // Write a message to the database
         database = FirebaseDatabase.getInstance();
         myUser = database.getReference("user_details");
-
+        myShop = database.getReference("shop_details");
         sharedpreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
         channel = (sharedpreferences.getString("Number", ""));
         if(!channel.isEmpty())
         {
-            myUser.child(channel).child("is_logged_in").addValueEventListener(new ValueEventListener() {
+            Intent i1= new Intent(MainActivity.this,SetupActivity.class); i1.putExtra("number",channel);
+            Intent i2= new Intent(MainActivity.this,DashboardActivity.class); i2.putExtra("number",channel);
+            myUser.child(channel).child("is_logged_in").addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
-                    if(snapshot.exists()&& (boolean) (snapshot.getValue()))
-                        Toast.makeText(MainActivity.this,"Already logged in",Toast.LENGTH_SHORT).show();
+                    if(snapshot.exists()&& (boolean) (snapshot.getValue())){
+                        myShop.child(channel).addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                if(snapshot.exists())
+                                    startActivity(i2);
+                                else
+                                    startActivity(i1);
+                                finish();
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError error) {
+
+                            }
+                        });
+                        //Toast.makeText(MainActivity.this,"Already logged in",Toast.LENGTH_SHORT).show();
+                    }
+
                 }
 
                 @Override
@@ -162,11 +182,30 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
+                            Intent i1= new Intent(MainActivity.this,SetupActivity.class); i1.putExtra("number",finalPhoneNumber);
+                            Intent i2= new Intent(MainActivity.this,DashboardActivity.class);
+
                             Toast.makeText(MainActivity.this,"ok",Toast.LENGTH_SHORT).show();
                             SharedPreferences.Editor editor = sharedpreferences.edit();
                             editor.putString("Number", finalPhoneNumber);
                             editor.commit();
                             myUser.child(channel).child("is_logged_in").setValue(true);
+                            myShop.child(channel).addListenerForSingleValueEvent(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                    if(snapshot.exists())
+                                        startActivity(i2);
+                                    else
+                                        startActivity(i1);
+                                    finish();
+                                }
+
+                                @Override
+                                public void onCancelled(@NonNull DatabaseError error) {
+
+                                }
+                            });
+
 
                         }
                         else {
@@ -182,6 +221,23 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
+                            Intent i1= new Intent(MainActivity.this,SetupActivity.class);i1.putExtra("number",finalPhoneNumber);
+                            Intent i2= new Intent(MainActivity.this,DashboardActivity.class);
+                            myShop.child(channel).addListenerForSingleValueEvent(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                    if(snapshot.exists())
+                                        startActivity(i2);
+                                    else
+                                        startActivity(i1);
+                                    finish();
+                                }
+
+                                @Override
+                                public void onCancelled(@NonNull DatabaseError error) {
+
+                                }
+                            });
                             Toast.makeText(MainActivity.this,"maiya chod diye bhaiya ji",Toast.LENGTH_LONG).show();
                         } else {
                             Toast.makeText(MainActivity.this,"Incorrect OTP", Toast.LENGTH_SHORT).show();

@@ -238,7 +238,7 @@ public class MainActivity extends AppCompatActivity {
 
                                 }
                             });
-                            Toast.makeText(MainActivity.this,"maiya chod diye bhaiya ji",Toast.LENGTH_LONG).show();
+                            Toast.makeText(MainActivity.this,"Gotcha",Toast.LENGTH_LONG).show();
                         } else {
                             Toast.makeText(MainActivity.this,"Incorrect OTP", Toast.LENGTH_SHORT).show();
                         }
